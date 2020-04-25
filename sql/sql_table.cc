@@ -9627,6 +9627,14 @@ do_continue:;
       The exceptions are ALTER_PARTITION_INFO and ALTER_PARTITION_REMOVE.
       For consistency, we report ER_ALTER_OPERATION_NOT_SUPPORTED here.
     */
+    if (alter_info->requested_algorithm ==
+        Alter_info::ALTER_TABLE_ALGORITHM_NONE)
+    {
+      alter_info->requested_algorithm=
+	(Alter_info::enum_alter_table_algorithm)
+	   thd->variables.alter_algorithm;
+    }
+
     if (alter_info->requested_lock !=
         Alter_info::ALTER_TABLE_LOCK_DEFAULT)
     {

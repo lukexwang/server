@@ -93,6 +93,9 @@ const char* Alter_info::algorithm() const
     return "ALGORITHM=INPLACE";
   case ALTER_TABLE_ALGORITHM_COPY:
     return "ALGORITHM=COPY";
+  case ALTER_TABLE_ALGORITHM_NONE:
+    DBUG_ASSERT(0);
+    /* Fall through */
   case ALTER_TABLE_ALGORITHM_DEFAULT:
     return "ALGORITHM=DEFAULT";
   case ALTER_TABLE_ALGORITHM_NOCOPY:
@@ -123,7 +126,9 @@ const char* Alter_info::lock() const
 bool Alter_info::supports_algorithm(THD *thd, enum_alter_inplace_result result,
                                     const Alter_inplace_info *ha_alter_info)
 {
-  if (requested_algorithm == Alter_info::ALTER_TABLE_ALGORITHM_DEFAULT)
+
+  /* Use alter_algorithm when user didn't specify algorithm in alter */
+  if (requested_algorithm == Alter_info::ALTER_TABLE_ALGORITHM_NONE)
     requested_algorithm = (Alter_info::enum_alter_table_algorithm) thd->variables.alter_algorithm;
 
   switch (result) {

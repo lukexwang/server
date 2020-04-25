@@ -57,7 +57,10 @@ public:
     ALTER_TABLE_ALGORITHM_NOCOPY,
 
     // Instant should allow any operation that changes metadata only.
-    ALTER_TABLE_ALGORITHM_INSTANT
+    ALTER_TABLE_ALGORITHM_INSTANT,
+
+    // When there is no specification of algorithm during alter table.
+    ALTER_TABLE_ALGORITHM_NONE
   };
 
 
@@ -114,7 +117,7 @@ public:
   flags(0), partition_flags(0),
     keys_onoff(LEAVE_AS_IS),
     num_parts(0),
-    requested_algorithm(ALTER_TABLE_ALGORITHM_DEFAULT),
+    requested_algorithm(ALTER_TABLE_ALGORITHM_NONE),
     requested_lock(ALTER_TABLE_LOCK_DEFAULT)
   {}
 
@@ -130,7 +133,7 @@ public:
     keys_onoff= LEAVE_AS_IS;
     num_parts= 0;
     partition_names.empty();
-    requested_algorithm= ALTER_TABLE_ALGORITHM_DEFAULT;
+    requested_algorithm= ALTER_TABLE_ALGORITHM_NONE;
     requested_lock= ALTER_TABLE_LOCK_DEFAULT;
   }
 
